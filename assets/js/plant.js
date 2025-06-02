@@ -33,7 +33,7 @@ function DownloadCanvasAsImage() {
 }
 
 
-imageObj.src = "assets/images/plant.png"; 
+imageObj.src = "assets/images/plant.jpg"; 
 
 var downloadCardButton = document.getElementById('downloadCard');
 downloadCardButton.addEventListener('click', function(e){
