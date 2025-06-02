@@ -23,7 +23,7 @@ function DownloadCanvasAsImage(){
     });
 }
 
-imageObj.src = "assets/images/deets.png"; 
+imageObj.src = "assets/images/alrugaib.png"; 
 
 var downloadCardButton = document.getElementById('downloadCard');
 downloadCardButton.addEventListener('click', function(e){
@@ -38,11 +38,11 @@ downloadCardButton.addEventListener('click', function(e){
     context.font = "40pt RB-Light";
 
     // text color
-    context.fillStyle = 'black';
+    context.fillStyle = 'white';
 
     // center and make text
     textWidth = (imageWidth - imageWidth / 2)
-    textHeight = (imageHeight - 980)
+    textHeight = (imageHeight - 680)
     
     context.fillText(text, textWidth, textHeight);
 

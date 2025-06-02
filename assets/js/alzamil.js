@@ -23,7 +23,7 @@ function DownloadCanvasAsImage(){
     });
 }
 
-imageObj.src = "assets/images/ec.png"; 
+imageObj.src = "assets/images/alzamil.png"; 
 
 var downloadCardButton = document.getElementById('downloadCard');
 downloadCardButton.addEventListener('click', function(e){
@@ -38,11 +38,11 @@ downloadCardButton.addEventListener('click', function(e){
     context.font = "40pt GESSTwoLight";
 
     // text color
-    context.fillStyle = '#083D53';
+    context.fillStyle = '#58AA7B';
 
     // center and make text
     textWidth = (imageWidth - imageWidth / 2)
-    textHeight = (imageHeight - 180)
+    textHeight = (imageHeight - 600)
     
     context.fillText(text, textWidth, textHeight);
 

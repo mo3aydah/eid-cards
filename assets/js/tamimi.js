@@ -23,7 +23,7 @@ function DownloadCanvasAsImage(){
     });
 }
 
-imageObj.src = "assets/images/aramco.png"; 
+imageObj.src = "assets/images/tamimi.png"; 
 
 var downloadCardButton = document.getElementById('downloadCard');
 downloadCardButton.addEventListener('click', function(e){
@@ -35,14 +35,14 @@ downloadCardButton.addEventListener('click', function(e){
 
     // custom font
     context.textAlign = 'center';
-    context.font = "40pt RB-Light";
+    context.font = "40pt GESSTwoLight";
 
     // text color
-    context.fillStyle = 'white';
+    context.fillStyle = '#DDB95B';
 
     // center and make text
     textWidth = (imageWidth - imageWidth / 2)
-    textHeight = (imageHeight - 650)
+    textHeight = (imageHeight - 600); // Adjust this value as needed
     
     context.fillText(text, textWidth, textHeight);
 

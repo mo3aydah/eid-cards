@@ -23,7 +23,7 @@ function DownloadCanvasAsImage(){
     });
 }
 
-imageObj.src = "assets/images/zahma.png"; 
+imageObj.src = "assets/images/gdc.png"; 
 
 var downloadCardButton = document.getElementById('downloadCard');
 downloadCardButton.addEventListener('click', function(e){
@@ -42,7 +42,7 @@ downloadCardButton.addEventListener('click', function(e){
 
     // center and make text
     textWidth = (imageWidth - imageWidth / 2)
-    textHeight = (imageHeight - 1000)
+    textHeight = (imageHeight - 680)
     
     context.fillText(text, textWidth, textHeight);
 

@@ -3,20 +3,18 @@
     height: 1920px;
 }
 
-
 body {
     background: url("../images/background-color.png");
 
 }
 
-
 @font-face {
-    font-family: "RB-Light";
-    src: url(../fonts/RB-Light.ttf);
+    font-family: "DINN";
+    src: url(../fonts/din-next-lt-w23-medium.ttf);
 }
 
 #myCanvas{
-    font-family: "RB-Light";
+    font-family: "DINN";
     max-height: 800px;
 }
 
@@ -32,7 +30,7 @@ canvas {
 }
 
 body{
-    font-family: "RB-Light";
+    font-family: "DINN";
 }
 
 footer {

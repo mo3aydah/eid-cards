@@ -23,7 +23,7 @@ function DownloadCanvasAsImage(){
     });
 }
 
-imageObj.src = "assets/images/pe.png"; 
+imageObj.src = "assets/images/bci.png"; 
 
 var downloadCardButton = document.getElementById('downloadCard');
 downloadCardButton.addEventListener('click', function(e){
@@ -38,11 +38,11 @@ downloadCardButton.addEventListener('click', function(e){
     context.font = "40pt GESSTwoLight";
 
     // text color
-    context.fillStyle = 'white';
+    context.fillStyle = '#253E90';
 
     // center and make text
     textWidth = (imageWidth - imageWidth / 2)
-    textHeight = (imageHeight - 130)
+    textHeight = (imageHeight - 930)
     
     context.fillText(text, textWidth, textHeight);
 

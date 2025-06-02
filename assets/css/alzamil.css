@@ -7,13 +7,14 @@ body {
     background: url("../images/background-color.png");
 
 }
+
 @font-face {
-    font-family: "GESSTwoLight";
-    src: url(../fonts/GESSTwoLight.otf);
+    font-family: "DINN";
+    src: url(../fonts/din-next-lt-w23-medium.ttf);
 }
 
 #myCanvas{
-    font-family: "GESSTwoLight";
+    font-family: "DINN";
     max-height: 800px;
 }
 
@@ -29,7 +30,7 @@ canvas {
 }
 
 body{
-    font-family: "GESSTwoLight";
+    font-family: "DINN";
 }
 
 footer {

@@ -23,7 +23,7 @@ function DownloadCanvasAsImage(){
     });
 }
 
-imageObj.src = "assets/images/burooj.png"; 
+imageObj.src = "assets/images/adnoc.png"; 
 
 var downloadCardButton = document.getElementById('downloadCard');
 downloadCardButton.addEventListener('click', function(e){
@@ -42,7 +42,7 @@ downloadCardButton.addEventListener('click', function(e){
 
     // center and make text
     textWidth = (imageWidth - imageWidth / 2)
-    textHeight = (imageHeight - 760)
+    textHeight = (imageHeight - 820)
     
     context.fillText(text, textWidth, textHeight);
 

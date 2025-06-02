@@ -23,7 +23,7 @@ function DownloadCanvasAsImage(){
     });
 }
 
-imageObj.src = "assets/images/Buroojair.png"; 
+imageObj.src = "assets/images/alrashed.png"; 
 
 var downloadCardButton = document.getElementById('downloadCard');
 downloadCardButton.addEventListener('click', function(e){
@@ -42,7 +42,7 @@ downloadCardButton.addEventListener('click', function(e){
 
     // center and make text
     textWidth = (imageWidth - imageWidth / 2)
-    textHeight = (imageHeight - 150)
+    textHeight = (imageHeight - 650)
     
     context.fillText(text, textWidth, textHeight);
 
