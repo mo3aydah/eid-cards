@@ -11,17 +11,27 @@ imageObj.onload = function()
     context.drawImage(imageObj, 0, 0);
 }
 
-function DownloadCanvasAsImage(){
-    let imageName = "thnia.png";
+function DownloadCanvasAsImage() {
+    let nameInput = document.getElementById("name").value.trim();
+
+    // Remove spaces and special characters, if needed
+    let cleanName = nameInput.replace(/[^a-zA-Z0-9\u0600-\u06FF]/g, "_");
+
+    // Set final file name
+    let imageName = cleanName
+        ? `6D_EidCard_${cleanName}.png`
+        : "6D_EidCard.png";
+
     let downloadLink = document.createElement('a');
     downloadLink.setAttribute('download', imageName);
-    let canvas = document.getElementById('myCanvas');
+
     canvas.toBlob(function(blob) {
-      let url = URL.createObjectURL(blob);
-      downloadLink.setAttribute('href', url);
-      downloadLink.click();
+        let url = URL.createObjectURL(blob);
+        downloadLink.setAttribute('href', url);
+        downloadLink.click();
     });
 }
+
 
 imageObj.src = "assets/images/adnoc.png"; 
 
