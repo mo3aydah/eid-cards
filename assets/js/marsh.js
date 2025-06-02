@@ -33,7 +33,7 @@ function DownloadCanvasAsImage() {
 }
 
 
-imageObj.src = "assets/images/marsh.png"; 
+imageObj.src = "assets/images/marshh.png"; 
 
 var downloadCardButton = document.getElementById('downloadCard');
 downloadCardButton.addEventListener('click', function(e){

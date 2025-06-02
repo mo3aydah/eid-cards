@@ -33,7 +33,7 @@ function DownloadCanvasAsImage() {
 }
 
 
-imageObj.src = "assets/images/slic.png"; 
+imageObj.src = "assets/images/sllic.png"; 
 
 var downloadCardButton = document.getElementById('downloadCard');
 downloadCardButton.addEventListener('click', function(e){

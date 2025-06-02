@@ -33,7 +33,7 @@ function DownloadCanvasAsImage() {
 }
 
 
-imageObj.src = "assets/images/milano.png"; 
+imageObj.src = "assets/images/milanoo.png"; 
 
 var downloadCardButton = document.getElementById('downloadCard');
 downloadCardButton.addEventListener('click', function(e){

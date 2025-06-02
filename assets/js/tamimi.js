@@ -33,7 +33,7 @@ function DownloadCanvasAsImage() {
 }
 
 
-imageObj.src = "assets/images/tamimi.png"; 
+imageObj.src = "assets/images/tamimii.png"; 
 
 var downloadCardButton = document.getElementById('downloadCard');
 downloadCardButton.addEventListener('click', function(e){
