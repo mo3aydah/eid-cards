@@ -32,7 +32,6 @@ function DownloadCanvasAsImage() {
     });
 }
 
-
 imageObj.src = "assets/images/klean.png"; 
 
 var downloadCardButton = document.getElementById('downloadCard');
@@ -45,14 +44,14 @@ downloadCardButton.addEventListener('click', function(e){
 
     // custom font
     context.textAlign = 'center';
-    context.font = "40pt RB-Light";
+    context.font = "40pt GESSTwoLight";
 
     // text color
-    context.fillStyle = 'white';
+    context.fillStyle = '#FFFFFF';
 
     // center and make text
     textWidth = (imageWidth - imageWidth / 2)
-    textHeight = (imageHeight - 700)
+    textHeight = (imageHeight - 200); // Adjust this value as needed
     
     context.fillText(text, textWidth, textHeight);
 
