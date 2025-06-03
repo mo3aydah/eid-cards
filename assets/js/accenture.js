@@ -68,7 +68,13 @@ downloadCardButton.addEventListener("click", function (e) {
   // 🟡 Timestamp
   const timestamp = new Date().toISOString();
 
-  // 🟢 Send to SheetDB
+  // 🟢 Send to SheetDB with logging
+  console.log("📤 Submitting to SheetDB:", {
+    name: text,
+    company: company,
+    time: timestamp,
+  });
+
   fetch("https://sheetdb.io/api/v1/4614gvgykfvrc", {
     method: "POST",
     headers: {
@@ -77,7 +83,15 @@ downloadCardButton.addEventListener("click", function (e) {
     body: JSON.stringify({
       data: [{ name: text, company: company, time: timestamp }],
     }),
-  });
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("✅ SheetDB response:", data);
+    })
+    .catch((error) => {
+      console.error("❌ SheetDB error:", error);
+      alert("حدث خطأ أثناء حفظ البيانات. الرجاء المحاولة مرة أخرى.");
+    });
 
   // clear the input field
   document.getElementById("name").value = "";
