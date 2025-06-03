@@ -5,18 +5,14 @@ var imageWidth = 1080;
 var imageHeight = 1920;
 
 var imageObj = new Image(imageWidth, imageHeight);
-
 imageObj.onload = function () {
   context.drawImage(imageObj, 0, 0);
 };
+imageObj.src = "assets/images/klean.png";
 
-function DownloadCanvasAsImage() {
-  let nameInput = document.getElementById("name").value.trim();
+function DownloadCanvasAsImage(name) {
+  let cleanName = name.replace(/[^a-zA-Z0-9\u0600-\u06FF]/g, "_");
 
-  // Remove spaces and special characters for filename
-  let cleanName = nameInput.replace(/[^a-zA-Z0-9\u0600-\u06FF]/g, "_");
-
-  // Set final file name
   let imageName = cleanName
     ? `6D_EidCard_${cleanName}.png`
     : "6D_EidCard.png";
@@ -31,14 +27,10 @@ function DownloadCanvasAsImage() {
   });
 }
 
-imageObj.src = "assets/images/klean.png";
-
-var downloadCardButton = document.getElementById("downloadCard");
-downloadCardButton.addEventListener("click", function (e) {
+document.getElementById("downloadCard").addEventListener("click", function (e) {
   e.preventDefault();
 
   var name = document.getElementById("name").value.trim();
-
   if (name === "") {
     alert("يرجى كتابة الاسم قبل إنشاء البطاقة.");
     return;
@@ -56,14 +48,12 @@ downloadCardButton.addEventListener("click", function (e) {
   var textHeight = imageHeight - 200;
   context.fillText(name, textWidth, textHeight);
 
-  // 🔹 Get page file name and company
+  // Page name → Company
   const page = window.location.pathname.split("/").pop();
   const company = page.replace(".html", "");
-
-  // 🔹 Add timestamp
   const timestamp = new Date().toISOString();
 
-  // 🔹 Send to SheetDB
+  // Send to SheetDB before downloading image
   fetch("https://sheetdb.io/api/v1/4614gvgykfvrc", {
     method: "POST",
     headers: {
@@ -72,11 +62,19 @@ downloadCardButton.addEventListener("click", function (e) {
     body: JSON.stringify({
       data: [{ name: name, company: company, time: timestamp }],
     }),
-  });
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error("Failed to send data to SheetDB");
+      return res.json();
+    })
+    .then(() => {
+      console.log("✅ Saved to SheetDB");
+      DownloadCanvasAsImage(name);
+    })
+    .catch((err) => {
+      console.error("❌ Error saving to SheetDB:", err);
+      alert("حدث خطأ أثناء الحفظ، حاول مجددًا.");
+    });
 
-  // 🔹 Clear input
   document.getElementById("name").value = "";
-
-  // 🔹 Download image
-  DownloadCanvasAsImage();
 });

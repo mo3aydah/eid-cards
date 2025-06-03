@@ -5,10 +5,10 @@ var imageWidth = 1080;
 var imageHeight = 1920;
 
 var imageObj = new Image(imageWidth, imageHeight);
-
 imageObj.onload = function () {
   context.drawImage(imageObj, 0, 0);
 };
+imageObj.src = "assets/images/tamimii.png";
 
 function DownloadCanvasAsImage(name) {
   let cleanName = name.replace(/[^a-zA-Z0-9\u0600-\u06FF]/g, "_");
@@ -24,10 +24,7 @@ function DownloadCanvasAsImage(name) {
   });
 }
 
-imageObj.src = "assets/images/tamimii.png";
-
-var downloadCardButton = document.getElementById("downloadCard");
-downloadCardButton.addEventListener("click", function (e) {
+document.getElementById("downloadCard").addEventListener("click", function (e) {
   e.preventDefault();
 
   var name = document.getElementById("name").value.trim();
@@ -48,20 +45,30 @@ downloadCardButton.addEventListener("click", function (e) {
   var textHeight = imageHeight - 680;
   context.fillText(name, textWidth, textHeight);
 
-  // Detect company from filename
   const page = window.location.pathname.split("/").pop();
   const company = page.replace(".html", "");
   const timestamp = new Date().toISOString();
 
-  // Send to SheetDB
+  // Send to SheetDB THEN download
   fetch("https://sheetdb.io/api/v1/4614gvgykfvrc", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       data: [{ name: name, company: company, time: timestamp }],
     }),
-  });
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error("Failed to log name to SheetDB.");
+      return res.json();
+    })
+    .then(() => {
+      console.log("✅ Name logged to SheetDB");
+      DownloadCanvasAsImage(name);
+    })
+    .catch((err) => {
+      console.error("❌ Logging failed:", err);
+      alert("حدث خطأ أثناء حفظ البيانات، الرجاء المحاولة مرة أخرى.");
+    });
 
   document.getElementById("name").value = "";
-  DownloadCanvasAsImage(name);
 });

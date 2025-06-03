@@ -5,10 +5,10 @@ var imageWidth = 1080;
 var imageHeight = 1920;
 
 var imageObj = new Image(imageWidth, imageHeight);
-
 imageObj.onload = function () {
   context.drawImage(imageObj, 0, 0);
 };
+imageObj.src = "assets/images/hadder.png";
 
 function DownloadCanvasAsImage(name) {
   let cleanName = name.replace(/[^a-zA-Z0-9\u0600-\u06FF]/g, "_");
@@ -27,10 +27,7 @@ function DownloadCanvasAsImage(name) {
   });
 }
 
-imageObj.src = "assets/images/hadder.png";
-
-var downloadCardButton = document.getElementById("downloadCard");
-downloadCardButton.addEventListener("click", function (e) {
+document.getElementById("downloadCard").addEventListener("click", function (e) {
   e.preventDefault();
 
   var name = document.getElementById("name").value.trim();
@@ -39,7 +36,7 @@ downloadCardButton.addEventListener("click", function (e) {
     return;
   }
 
-  // Draw the canvas
+  // Draw canvas
   context.clearRect(0, 0, imageWidth, imageHeight);
   context.drawImage(imageObj, 0, 0);
 
@@ -51,12 +48,12 @@ downloadCardButton.addEventListener("click", function (e) {
   var textHeight = imageHeight - 650;
   context.fillText(name, textWidth, textHeight);
 
-  // 🔹 Get page name for company tracking
+  // Get page name for company
   const page = window.location.pathname.split("/").pop();
   const company = page.replace(".html", "");
   const timestamp = new Date().toISOString();
 
-  // 🔹 Send to SheetDB
+  // Send to SheetDB, then download image
   fetch("https://sheetdb.io/api/v1/4614gvgykfvrc", {
     method: "POST",
     headers: {
@@ -65,8 +62,19 @@ downloadCardButton.addEventListener("click", function (e) {
     body: JSON.stringify({
       data: [{ name: name, company: company, time: timestamp }],
     }),
-  });
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error("SheetDB request failed");
+      return res.json();
+    })
+    .then(() => {
+      console.log("✅ Name logged to SheetDB");
+      DownloadCanvasAsImage(name);
+    })
+    .catch((err) => {
+      console.error("❌ Error saving to SheetDB:", err);
+      alert("حدث خطأ أثناء الحفظ، يرجى المحاولة مرة أخرى.");
+    });
 
   document.getElementById("name").value = "";
-  DownloadCanvasAsImage(name);
 });

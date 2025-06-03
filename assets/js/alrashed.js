@@ -5,15 +5,14 @@ var imageWidth = 1080;
 var imageHeight = 1920;
 
 var imageObj = new Image(imageWidth, imageHeight);
-
 imageObj.onload = function () {
   context.drawImage(imageObj, 0, 0);
 };
 
+imageObj.src = "assets/images/alrashed.png";
+
 function DownloadCanvasAsImage() {
   let nameInput = document.getElementById("name").value.trim();
-
-  // Clean name for filename
   let cleanName = nameInput.replace(/[^a-zA-Z0-9\u0600-\u06FF]/g, "_");
 
   let imageName = cleanName
@@ -30,20 +29,16 @@ function DownloadCanvasAsImage() {
   });
 }
 
-imageObj.src = "assets/images/alrashed.png";
-
-var downloadCardButton = document.getElementById("downloadCard");
-downloadCardButton.addEventListener("click", function (e) {
+document.getElementById("downloadCard").addEventListener("click", function (e) {
   e.preventDefault();
 
   var text = document.getElementById("name").value.trim();
-
   if (!text) {
     alert("يرجى كتابة الاسم قبل إنشاء البطاقة.");
     return;
   }
 
-  // Draw canvas
+  // Draw text on canvas
   context.clearRect(0, 0, imageWidth, imageHeight);
   context.drawImage(imageObj, 0, 0);
 
@@ -51,31 +46,35 @@ downloadCardButton.addEventListener("click", function (e) {
   context.font = "40pt GESSTwoLight";
   context.fillStyle = "black";
 
-  var textWidth = imageWidth / 2;
-  var textHeight = imageHeight - 650;
+  var textX = imageWidth / 2;
+  var textY = imageHeight - 650;
+  context.fillText(text, textX, textY);
 
-  context.fillText(text, textWidth, textHeight);
-
-  // Get current page filename and extract company
+  // Extract company and timestamp
   const page = window.location.pathname.split("/").pop();
   const company = page.replace(".html", "");
-
-  // Timestamp
   const timestamp = new Date().toISOString();
 
-  // Send data to SheetDB
+  // Send to SheetDB
   fetch("https://sheetdb.io/api/v1/4614gvgykfvrc", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       data: [{ name: text, company: company, time: timestamp }],
     }),
-  });
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error("Failed to save to SheetDB");
+      return res.json();
+    })
+    .then((data) => {
+      console.log("✅ Name saved to SheetDB", data);
+      DownloadCanvasAsImage();
+    })
+    .catch((err) => {
+      console.error("❌ Error sending to SheetDB:", err);
+      alert("حدث خطأ أثناء حفظ الاسم. حاول مجددًا لاحقًا.");
+    });
 
   document.getElementById("name").value = "";
-
-  // Download image
-  DownloadCanvasAsImage();
 });

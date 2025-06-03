@@ -5,13 +5,14 @@ var imageWidth = 1080;
 var imageHeight = 1920;
 
 var imageObj = new Image(imageWidth, imageHeight);
-
 imageObj.onload = function () {
   context.drawImage(imageObj, 0, 0);
 };
+imageObj.src = "assets/images/aramco.png";
 
 function DownloadCanvasAsImage(name) {
   let cleanName = name.replace(/[^a-zA-Z0-9\u0600-\u06FF]/g, "_");
+
   let imageName = cleanName
     ? `6D_EidCard_${cleanName}.png`
     : "6D_EidCard.png";
@@ -26,10 +27,7 @@ function DownloadCanvasAsImage(name) {
   });
 }
 
-imageObj.src = "assets/images/aramco.png";
-
-var downloadCardButton = document.getElementById("downloadCard");
-downloadCardButton.addEventListener("click", function (e) {
+document.getElementById("downloadCard").addEventListener("click", function (e) {
   e.preventDefault();
 
   var name = document.getElementById("name").value.trim();
@@ -38,7 +36,7 @@ downloadCardButton.addEventListener("click", function (e) {
     return;
   }
 
-  // Draw canvas
+  // Draw canvas with name
   context.clearRect(0, 0, imageWidth, imageHeight);
   context.drawImage(imageObj, 0, 0);
 
@@ -46,17 +44,16 @@ downloadCardButton.addEventListener("click", function (e) {
   context.font = "40pt RB-Light";
   context.fillStyle = "white";
 
-  var textWidth = imageWidth / 2;
-  var textHeight = imageHeight - 650;
-  context.fillText(name, textWidth, textHeight);
+  var textX = imageWidth / 2;
+  var textY = imageHeight - 650;
+  context.fillText(name, textX, textY);
 
-  // Get page file and company name
+  // Extract company from file name
   const page = window.location.pathname.split("/").pop();
   const company = page.replace(".html", "");
-
   const timestamp = new Date().toISOString();
 
-  // Send to SheetDB
+  // Send to SheetDB then download
   fetch("https://sheetdb.io/api/v1/4614gvgykfvrc", {
     method: "POST",
     headers: {
@@ -65,8 +62,19 @@ downloadCardButton.addEventListener("click", function (e) {
     body: JSON.stringify({
       data: [{ name: name, company: company, time: timestamp }],
     }),
-  });
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error("Submission failed");
+      return res.json();
+    })
+    .then(() => {
+      console.log("✅ Sent to SheetDB");
+      DownloadCanvasAsImage(name);
+    })
+    .catch((err) => {
+      console.error("❌ SheetDB Error:", err);
+      alert("حدث خطأ أثناء الحفظ، حاول لاحقاً.");
+    });
 
   document.getElementById("name").value = "";
-  DownloadCanvasAsImage(name);
 });
