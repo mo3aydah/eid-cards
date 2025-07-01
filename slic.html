@@ -1,10 +1,47 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>بطاقتك الخاصة للعيد</title>
-    <link rel="icon" type="image/png" href="assets/images/favicon.ico" />
+    <title>News Card</title>
+    <style>
+      @font-face {
+        font-family: "DINN";
+        src: url(assets/fonts/din-next-lt-w23-medium.ttf);
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "DINN", sans-serif;
+        background-color: #00102B;
+        color: #ffffff;
+      }
+
+      .news-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 4rem 2rem;
+        min-height: 100vh;
+        max-width: 700px;
+        margin: auto;
+      }
+
+      .category {
+        font-size: 0.9rem;
+        color: #9aa7c0;
+        text-transform: uppercase;
+        margin-bottom: 1.5rem;
+      }
+
+      .headline {
+        font-size: 1.5rem;
+        font-weight: 600;
+        line-height: 1.5;
+        margin-bottom: 2.5rem;
+      }
 
     <!-- Bootstrap CSS -->
     <link
@@ -44,6 +81,20 @@
         <button type="button" id="downloadCard" class="btn btn-light fw-bold border shadow-sm">
           حمل بطاقتك الآن
         </button>
+      </div>
+
+      <!-- Comment Section -->
+      <div class="row justify-content-center mt-4">
+        <div class="col-md-6">
+          <div class="alert alert-info text-center" role="alert">
+            <h6 class="alert-heading">ملاحظة مهمة</h6>
+            <p class="mb-2">انتهت صلاحية الرابط. لإعادة التفعيل أو إعادة الطلب، اضغط هنا:</p>
+            <a href="https://wa.me/966501234567?text=مرحبا، أريد إعادة طلب بطاقة تهنئة العيد لشركة SLIC" 
+               class="btn btn-success btn-sm" target="_blank">
+              <i class="fab fa-whatsapp"></i> إعادة الطلب عبر واتساب
+            </a>
+          </div>
+        </div>
       </div>
     </div>
 

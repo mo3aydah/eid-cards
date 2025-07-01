@@ -1,31 +1,12 @@
 @font-face {
   font-family: "DINN";
-  src: url(../fonts/din-next-lt-w23-medium.ttf);
+  src: url(assets/fonts/din-next-lt-w23-medium.ttf);
 }
 
 body {
-  font-family: 'GESSTwoLight', sans-serif;
+  font-family: 'DINN', sans-serif;
   background-color: #121212;
   color: #ffffff;
-}
-
-.imageCover {
-  margin-bottom: 0;
-  padding-bottom: 0;
-  line-height: 0;
-}
-
-
-canvas {
-  display: block;
-  margin: 0 auto;
-  padding: 0;
-
-  max-width: 100%;
-  height: auto;
-  border-radius: 12px;
-
-  object-fit: contain;
 }
 
 .form-control,
@@ -49,12 +30,36 @@ canvas {
   color: #000;
 }
 
+.alert {
+  background-color: #1e1e1e;
+  border-color: #333;
+}
+
+.alert-heading {
+  font-size: 1.5rem;
+}
+
 .info-text {
   color: #aaa;
   font-size: 1rem;
-  margin-top: 0;
+}
+
+footer {
+  background-color: #121212;
+  padding: 1rem 0;
 }
 
 footer a {
   color: #6c8eff;
+}
+
+.powered-by {
+  font-size: 0.9rem;
+  color: #888;
+  margin-right: 0.5rem;
+}
+
+.footer-logo {
+  height: 28px;
+  margin-left: 0.5rem;
 }
