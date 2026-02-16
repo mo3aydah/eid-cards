@@ -56,10 +56,11 @@ let userName = null;
 // Load fonts
 let fontsLoaded = false;
 const arabicMessageFont = new FontFace('GE_SS_Two_Light', 'url(assets/fonts/GE_SS_Two_Light.otf)');
+const arabicNameFont = new FontFace('GE_SS_Two_Medium', 'url(assets/fonts/GE_SS_Two_Medium.otf)');
 const gothamMediumFont = new FontFace('Gotham-Medium', 'url(assets/fonts/Gotham-Medium.otf)');
 const gothamThinFont = new FontFace('Gotham-Thin', 'url(assets/fonts/Gotham-Thin.otf)');
 
-Promise.all([arabicMessageFont.load(), gothamMediumFont.load(), gothamThinFont.load()]).then(fonts => {
+Promise.all([arabicMessageFont.load(), arabicNameFont.load(), gothamMediumFont.load(), gothamThinFont.load()]).then(fonts => {
   fonts.forEach(font => document.fonts.add(font));
   fontsLoaded = true;
 }).catch(err => {
@@ -493,7 +494,7 @@ function drawCard() {
   // Draw name if entered
   if (userName && selectedLanguage) {
     const isArabic = selectedLanguage === 'ar';
-    const nameFont = "40pt Gotham-Medium"; // Use Gotham-Medium for both Arabic and English names
+    const nameFont = isArabic ? "40pt GE_SS_Two_Medium" : "40pt Gotham-Medium";
     
     context.textAlign = "center";
     context.fillStyle = "#FFFFFF";
