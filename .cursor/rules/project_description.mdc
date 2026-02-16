@@ -1,0 +1,47 @@
+---
+alwaysApply: true
+---
+
+Title: Eid Greetings Card Generator
+
+A customized bilingual multi-step greetings card generator for Ramadan/Eid celebrations.
+
+## Project Overview
+Interactive web application that allows users to create personalized Eid greeting cards through a step-by-step process. Users can select their preferred language, choose a message, enter their name, preview the card in real-time, and download the final personalized card.
+
+## Features
+
+### Multi-Step Flow
+1. **Language Selection** - Choose between Arabic or English
+2. **Message Selection** - Choose from two pre-defined messages (language-specific)
+3. **Name Entry** - Enter personalized name for the card
+4. **Preview & Download** - View final card and download as PNG
+
+### Key Features
+- **Language-Specific UI**: Once language is selected, all UI elements switch to that language only (Arabic or English)
+- **Real-Time Preview**: Canvas preview updates dynamically as users progress through steps
+- **Step Indicators**: Visual progress bar showing current step and completed steps
+- **Navigation Controls**: Back and Next buttons on all steps (except language selection)
+- **Responsive Design**: Works on desktop and mobile devices
+- **Canvas Rendering**: Uses HTML5 Canvas to render personalized cards with custom fonts
+- **Data Tracking**: Integrates with SheetDB API to track card generation
+
+### Technical Stack
+- HTML5 Canvas for card rendering
+- Bootstrap 5 for responsive layout
+- Vanilla JavaScript for interactivity
+- Custom CSS with navy blue theme and animated backgrounds
+- Custom fonts (AlQabas for Arabic, GESSTwoLight for English)
+
+### File Structure
+- Each company has its own HTML file (e.g., `almanaa.html`)
+- Company-specific JavaScript files in `assets/js/`
+- Company-specific CSS files in `assets/css/`
+- Card images in `assets/images/`
+- Font files in `assets/fonts/`
+
+### Current Companies
+- Almanaa (with Ramadan post card)
+- Accenture
+- ADNOC
+- And others...

@@ -1,0 +1,65 @@
+---
+alwaysApply: true
+---
+
+# Product Context: Eid Greetings Card Generator
+
+## Problem Statement
+Organizations and individuals need a simple, accessible way to create personalized Eid/Ramadan greeting cards that can be shared digitally. Traditional card creation tools are often complex, require design skills, or don't support Arabic language properly. This solution provides a streamlined, bilingual experience specifically tailored for Eid celebrations.
+
+## Target Audience
+- **Primary Users:** Employees and associates of companies offering branded Eid cards
+- **Use Cases:**
+  - Corporate Eid greetings to clients and partners
+  - Personal Eid greetings with company branding
+  - Quick, professional card creation without design expertise
+
+## User Personas
+
+### Persona 1: Corporate User
+- **Needs:** Professional, branded greeting cards for business communications
+- **Pain Points:** Lack of design skills, time constraints, need for Arabic support
+- **Goals:** Create polished cards quickly, maintain brand consistency
+
+### Persona 2: Individual User
+- **Needs:** Personal greeting cards with company association
+- **Pain Points:** Want simplicity, bilingual support, mobile accessibility
+- **Goals:** Create personalized cards easily on any device
+
+## User Stories
+
+### Core User Flow
+1. **As a user**, I want to select my preferred language (Arabic or English) so that I can interact with the interface in my native language.
+2. **As a user**, I want to choose from pre-written messages so that I don't have to compose my own greeting.
+3. **As a user**, I want to enter my name so that the card is personalized for me.
+4. **As a user**, I want to see a preview of my card before downloading so that I can verify it looks correct.
+5. **As a user**, I want to download my card as a PNG image so that I can share it digitally.
+
+### Additional User Stories
+6. **As a user**, I want to navigate back to previous steps so that I can change my selections.
+7. **As a user**, I want to see my progress through the steps so that I know where I am in the process.
+8. **As a user**, I want the interface to work on my mobile device so that I can create cards on the go.
+
+## Critical Success Factors
+
+### User Experience
+- **Simplicity:** The process should be intuitive and require no instructions
+- **Speed:** Card creation should take less than 2 minutes
+- **Clarity:** Each step should be clear and unambiguous
+- **Feedback:** Real-time preview provides immediate visual feedback
+
+### Technical Requirements
+- **Performance:** Cards should render and download quickly
+- **Compatibility:** Works across modern browsers and devices
+- **Reliability:** Download functionality must work consistently
+- **Data Integrity:** User selections and card data must be accurately tracked
+
+## Product Vision
+A frictionless, culturally-aware card creation experience that celebrates Eid traditions while providing modern digital convenience. The product should feel effortless to use while producing professional-quality results that users are proud to share.
+
+## Key Differentiators
+1. **Bilingual Excellence:** True language switching, not just translation
+2. **Cultural Sensitivity:** Designed specifically for Eid/Ramadan context
+3. **Brand Flexibility:** Supports multiple company templates
+4. **Mobile-First:** Optimized for smartphone usage
+5. **Zero Learning Curve:** Intuitive step-by-step process

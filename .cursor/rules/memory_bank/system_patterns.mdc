@@ -1,0 +1,184 @@
+---
+alwaysApply: true
+---
+
+# System Patterns: Architectural Blueprint
+
+## Architecture Overview
+
+```mermaid
+flowchart TD
+    User["User"] --> Step1["Step 1: Language Selection<br/>(Bilingual UI)"]
+    Step1 --> LangSelect["User Selects Language<br/>(Arabic or English)"]
+    LangSelect --> Step2["Step 2: Message Selection<br/>(Language-Specific UI)"]
+    Step2 --> MsgSelect["User Selects Message<br/>(2 Options Available)"]
+    MsgSelect --> Step3["Step 3: Name Entry<br/>(Language-Specific UI)"]
+    Step3 --> NameEntry["User Enters Name<br/>(Real-time Preview)"]
+    NameEntry --> Step4["Step 4: Preview & Download<br/>(Language-Specific UI)"]
+    Step4 --> Download["User Downloads PNG"]
+    
+    Canvas["Canvas Preview<br/>(Always Visible)"] --> Step1
+    Canvas --> Step2
+    Canvas --> Step3
+    Canvas --> Step4
+    
+    StateMgmt["State Management<br/>(selectedLanguage,<br/>selectedMessage,<br/>userName)"] --> Canvas
+    StateMgmt --> Step2
+    StateMgmt --> Step3
+    StateMgmt --> Step4
+    
+    SheetDB["SheetDB API<br/>(Analytics Tracking)"] --> Download
+```
+
+## Component Structure
+
+### File Organization Pattern
+```
+eid-cards/
+├── [company].html          # Main HTML file per company
+├── assets/
+│   ├── js/
+│   │   └── [company].js   # Company-specific JavaScript
+│   ├── css/
+│   │   └── [company].css   # Company-specific CSS
+│   ├── images/
+│   │   └── [company].png  # Card template image
+│   └── fonts/              # Custom fonts
+```
+
+### HTML Structure Pattern
+Each company HTML file follows this structure:
+1. **Head Section:**
+   - Bootstrap CSS
+   - Company-specific CSS
+   - Inline styles for step management and canvas
+
+2. **Body Section:**
+   - Step indicator (progress bar)
+   - Canvas preview (always visible)
+   - Step containers (4 steps, only one active at a time)
+   - Footer with branding
+
+### JavaScript Architecture
+
+#### State Management
+```javascript
+// Global state variables
+let selectedLanguage = null;    // 'ar' or 'en'
+let selectedMessage = null;      // '1' or '2'
+let userName = null;             // User-entered name
+```
+
+#### Core Functions Pattern
+1. **`showStep(stepNumber)`** - Manages step visibility and indicator updates
+2. **`updateUIForLanguage(lang)`** - Switches all UI content to selected language
+3. **`drawCard()`** - Renders canvas with image, message, and name
+4. **`drawText(ctx, text, x, y, maxWidth, fontSize, isArabic)`** - Handles text wrapping
+5. **`DownloadCanvasAsImage()`** - Converts canvas to PNG and triggers download
+
+#### Event Handling Pattern
+- Language selection: Updates state → switches UI → advances to Step 2
+- Message selection: Updates state → enables Next button → updates preview
+- Name input: Real-time updates via 'input' event listener
+- Navigation buttons: Back/Next handlers for step navigation
+
+## Design Patterns
+
+### Step Management Pattern
+- **Single Active Step:** Only one step visible at a time using `.active` class
+- **Step Indicators:** Visual progress bar showing current and completed steps
+- **State Persistence:** User selections preserved when navigating back
+
+### Language Switching Pattern
+- **Initial State:** Bilingual content shown (Arabic/English)
+- **After Selection:** All UI switches to selected language only
+- **Content Dictionary:** `uiContent` object contains all language-specific strings
+- **Direction Management:** HTML `dir` attribute set based on language
+
+### Canvas Rendering Pattern
+- **Image Loading:** Pre-load card template image
+- **Font Loading:** Load Arabic and English fonts before rendering
+- **Text Positioning:** 
+  - Message: Y = imageHeight - 800
+  - Name: Y = imageHeight - 650
+- **Text Wrapping:** Custom function handles multi-line text for long messages
+
+### Navigation Pattern
+- **Step 1:** No navigation buttons (language selection only)
+- **Steps 2-4:** Back and Next buttons
+- **Next Button:** Enabled only when required selection is made
+- **Back Button:** Always enabled, preserves state
+
+## Technical Decisions
+
+### Why Canvas Instead of CSS/HTML?
+- **Precision:** Exact control over text positioning on card image
+- **Download:** Easy conversion to PNG format
+- **Font Rendering:** Better control over custom font rendering
+- **Image Overlay:** Seamless text overlay on card template
+
+### Why Separate Files Per Company?
+- **Maintainability:** Each company's customization isolated
+- **Performance:** Only load necessary assets per company
+- **Scalability:** Easy to add new companies without affecting others
+- **Branding:** Company-specific styling and images
+
+### Why Bootstrap 5?
+- **Responsive Grid:** Easy mobile/desktop layout
+- **Consistent Styling:** Pre-built components for forms and buttons
+- **Accessibility:** Built-in accessibility features
+- **CDN Delivery:** Fast loading without local dependencies
+
+### Why SheetDB?
+- **Simplicity:** No backend required, direct API integration
+- **Analytics:** Track card generation without complex infrastructure
+- **Data Collection:** Capture user selections and timestamps
+- **Cost-Effective:** Free tier sufficient for tracking needs
+
+## Data Flow
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant UI
+    participant State
+    participant Canvas
+    participant SheetDB
+    
+    User->>UI: Select Language
+    UI->>State: Update selectedLanguage
+    State->>UI: Update all UI content
+    State->>Canvas: Trigger redraw
+    
+    User->>UI: Select Message
+    UI->>State: Update selectedMessage
+    State->>Canvas: Update preview
+    
+    User->>UI: Enter Name
+    UI->>State: Update userName
+    State->>Canvas: Real-time preview update
+    
+    User->>UI: Click Download
+    UI->>Canvas: Generate final card
+    Canvas->>User: Download PNG
+    UI->>SheetDB: Log generation data
+    SheetDB-->>UI: Confirmation
+```
+
+## Security Considerations
+- **No User Input Validation:** Names are accepted as-is (consider adding sanitization)
+- **API Key Exposure:** SheetDB API endpoint is public (acceptable for analytics)
+- **XSS Prevention:** Canvas rendering prevents script injection
+- **No Authentication:** Public access intended (by design)
+
+## Performance Optimizations
+- **Font Pre-loading:** Fonts loaded early to prevent rendering delays
+- **Image Caching:** Card images cached by browser
+- **Canvas Optimization:** Only redraws when state changes
+- **Lazy Step Loading:** Steps hidden until needed (CSS display: none)
+
+## Future Architecture Considerations
+- **Component Reusability:** Consider extracting common step components
+- **State Management:** Could benefit from a simple state management library
+- **Error Handling:** Add comprehensive error handling for API calls
+- **Offline Support:** Consider service worker for offline card generation

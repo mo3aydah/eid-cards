@@ -91,7 +91,7 @@ imageObj.onerror = function() {
   console.error('Failed to load card image');
 };
 
-imageObj.src = "assets/images/accenture.png";
+imageObj.src = "assets/images/Almanea - Ramadan post.png";
 
 // Show loading initially
 document.getElementById('myCanvas').classList.add('loading');
@@ -212,24 +212,7 @@ function setupLanguageButtons() {
   });
 }
 
-// Initialize all event listeners when DOM is ready
-function initializeEventListeners() {
-  setupLanguageButtons();
-  setupMessageButtons();
-  setupStep2NextButton();
-  setupStep2BackButton();
-  setupStep3ContinueButton();
-  setupStep3BackButton();
-  setupStep4BackButton();
-  setupDownloadButton();
-}
-
-// Setup event listeners when DOM is ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initializeEventListeners);
-} else {
-  initializeEventListeners();
-}
+// Language buttons setup is now handled in initializeEventListeners()
 
 // Update Step 2 based on language
 function updateStep2() {
@@ -605,52 +588,72 @@ function setupDownloadButton() {
   if (!downloadBtn) return;
   
   downloadBtn.addEventListener("click", function (e) {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!userName || !selectedMessage) {
-    const lang = selectedLanguage || 'en';
-    const alertMsg = lang === 'ar' ? 'يرجى إكمال جميع الخطوات' : 'Please complete all steps';
-    alert(alertMsg);
-    return;
-  }
-
-  // Get company name from file
-  const page = window.location.pathname.split("/").pop();
-  const company = page.replace(".html", "");
-  const timestamp = new Date().toISOString();
-
-  // 🔁 Send to SheetDB
-  fetch("https://sheetdb.io/api/v1/4614gvgykfvrc", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      data: [{ 
-        name: userName, 
-        company: company, 
-        message: selectedMessage,
-        language: selectedLanguage,
-        time: timestamp 
-      }],
-    }),
-  })
-    .then((res) => {
-      if (!res.ok) throw new Error("Failed to save to SheetDB");
-      return res.json();
-    })
-    .then((data) => {
-      console.log("✅ Logged to SheetDB:", data);
-      DownloadCanvasAsImage();
-    })
-    .catch((err) => {
-      console.error("❌ SheetDB Error:", err);
-      // Still allow download even if SheetDB fails
-      DownloadCanvasAsImage();
-      
-      // Show warning but don't block user
+    if (!userName || !selectedMessage) {
       const lang = selectedLanguage || 'en';
-      const warningMsg = lang === 'ar' 
-        ? 'تم تحميل البطاقة، لكن لم يتم حفظ البيانات'
-        : 'Card downloaded, but data was not saved';
-      setTimeout(() => showSuccessMessage(warningMsg), 500);
-    });
-});
+      const alertMsg = lang === 'ar' ? 'يرجى إكمال جميع الخطوات' : 'Please complete all steps';
+      alert(alertMsg);
+      return;
+    }
+
+    // Get company name from file
+    const page = window.location.pathname.split("/").pop();
+    const company = page.replace(".html", "");
+    const timestamp = new Date().toISOString();
+
+    // 🔁 Send to SheetDB
+    fetch("https://sheetdb.io/api/v1/4614gvgykfvrc", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        data: [{ 
+          name: userName, 
+          company: company, 
+          message: selectedMessage,
+          language: selectedLanguage,
+          time: timestamp 
+        }],
+      }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to save to SheetDB");
+        return res.json();
+      })
+      .then((data) => {
+        console.log("✅ Logged to SheetDB:", data);
+        DownloadCanvasAsImage();
+      })
+      .catch((err) => {
+        console.error("❌ SheetDB Error:", err);
+        // Still allow download even if SheetDB fails
+        DownloadCanvasAsImage();
+        
+        // Show warning but don't block user
+        const lang = selectedLanguage || 'en';
+        const warningMsg = lang === 'ar' 
+          ? 'تم تحميل البطاقة، لكن لم يتم حفظ البيانات'
+          : 'Card downloaded, but data was not saved';
+        setTimeout(() => showSuccessMessage(warningMsg), 500);
+      });
+  });
+}
+
+// Initialize all event listeners when DOM is ready
+function initializeEventListeners() {
+  setupLanguageButtons();
+  setupMessageButtons();
+  setupStep2NextButton();
+  setupStep2BackButton();
+  setupStep3ContinueButton();
+  setupStep3BackButton();
+  setupStep4BackButton();
+  setupDownloadButton();
+}
+
+// Setup event listeners when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeEventListeners);
+} else {
+  initializeEventListeners();
+}

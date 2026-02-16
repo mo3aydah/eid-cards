@@ -1,0 +1,54 @@
+---
+alwaysApply: true
+---
+
+# Project Brief: Eid Greetings Card Generator
+
+## Core Purpose
+A bilingual (Arabic/English) web-based application that enables users to create personalized Eid/Ramadan greeting cards through an interactive multi-step process. Each card is customized with a user-selected message and personal name, rendered on company-branded card templates.
+
+## Primary Objectives
+1. Provide an intuitive, step-by-step card creation experience
+2. Support bilingual interface (Arabic and English) with language-specific content
+3. Generate downloadable, personalized greeting cards as PNG images
+4. Track card generation analytics via SheetDB integration
+5. Support multiple company-branded card templates
+
+## Key Deliverables
+- Individual HTML pages for each company card
+- Real-time canvas preview of personalized cards
+- Multi-step user flow with visual progress indicators
+- Language selection and content switching
+- Message selection from pre-defined options
+- Name personalization
+- PNG download functionality
+- Responsive design for desktop and mobile
+
+## Scope Boundaries
+- **In Scope:**
+  - Multi-step card creation flow
+  - Bilingual support (Arabic/English)
+  - Canvas-based card rendering
+  - Company-specific card templates
+  - User data tracking
+  
+- **Out of Scope:**
+  - User authentication or accounts
+  - Card editing after download
+  - Social media sharing integration
+  - Custom message input (only pre-defined messages)
+  - Multiple card formats (currently PNG only)
+
+## Success Criteria
+- Users can successfully create and download personalized cards
+- Interface adapts fully to selected language (Arabic or English)
+- Cards render correctly with custom fonts and proper text positioning
+- Application works seamlessly on mobile and desktop devices
+- Card generation data is successfully logged to SheetDB
+
+## Stakeholder Expectations
+- Clean, modern UI with navy blue theme
+- Smooth user experience with clear step progression
+- Fast card generation and download
+- Professional appearance of final cards
+- Support for multiple company brands

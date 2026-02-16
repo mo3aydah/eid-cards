@@ -1,0 +1,59 @@
+---
+alwaysApply: true
+---
+
+# Active Context: Current Operations
+
+## Current Focus
+The Almanaa company card has been fully implemented with the complete multi-step flow. The system is operational and ready for testing. Next steps involve applying the same pattern to other company cards.
+
+## Recent Changes (Latest Session)
+1. ✅ Implemented complete multi-step flow for Almanaa card
+2. ✅ Added language selection with full UI switching (Arabic/English)
+3. ✅ Implemented message selection (2 options per language)
+4. ✅ Added name entry with real-time preview updates
+5. ✅ Created step indicators with visual progress tracking
+6. ✅ Added navigation buttons (Back/Next) for all steps
+7. ✅ Implemented language-specific content switching
+8. ✅ Updated project description documentation
+9. ✅ Created comprehensive Memory Bank documentation
+10. ✅ Applied multi-step flow to Accenture card (HTML, JS, CSS)
+
+## Current State
+- **Almanaa Card:** Fully functional with all features implemented
+- **Accenture Card:** Fully functional with all features implemented
+- **Other Company Cards:** Still showing expired link messages (need to be updated)
+- **Architecture:** Multi-step flow pattern established and documented
+- **UI/UX:** Navy blue theme with animated backgrounds implemented
+
+## Immediate Next Steps
+1. Test Accenture card flow end-to-end
+2. Apply multi-step pattern to remaining company cards (ADNOC, Al Rashed, etc.)
+3. Ensure all company cards use the same user flow
+4. Verify SheetDB integration is working correctly
+5. Test responsive design on mobile devices
+
+## Active Decisions
+- **Language Switching:** Once language is selected, all UI switches to that language (not bilingual)
+- **Step Navigation:** Back/Next buttons on all steps except language selection
+- **Preview Display:** Canvas preview visible on all steps, updates in real-time
+- **Message Options:** Two pre-defined messages per language (not user-customizable)
+
+## Pending Questions
+- Should all company cards use the same two messages, or company-specific messages?
+- Are there any additional companies that need cards created?
+- Should we add any validation for name input (character limits, special characters)?
+- Do we need to support additional languages beyond Arabic and English?
+
+## Critical Considerations
+- **Font Loading:** Ensure fonts are loaded before canvas rendering
+- **Image Paths:** Verify all company card images exist in assets/images/
+- **Canvas Dimensions:** Standard size is 1080x1920 (portrait orientation)
+- **Text Positioning:** Name at Y position (imageHeight - 650), Message at (imageHeight - 800)
+
+## Known Issues
+- None currently identified (Almanaa card is fully functional)
+
+## Testing Status
+- Almanaa card: Ready for user testing
+- Other cards: Pending implementation of multi-step flow

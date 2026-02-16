@@ -1,0 +1,186 @@
+---
+alwaysApply: true
+---
+
+# Technical Context: Environment Specification
+
+## Technology Stack
+
+### Frontend Technologies
+- **HTML5:** Semantic markup, Canvas API
+- **CSS3:** Custom styling, animations, responsive design
+- **JavaScript (ES6+):** Vanilla JS, no frameworks
+- **Bootstrap 5.1.3:** CSS framework via CDN
+
+### Core APIs & Libraries
+- **HTML5 Canvas API:** For card rendering and image generation
+- **FontFace API:** For loading custom fonts dynamically
+- **Fetch API:** For SheetDB integration
+- **Blob API:** For PNG download generation
+
+### External Services
+- **SheetDB:** Analytics tracking API
+  - Endpoint: `https://sheetdb.io/api/v1/4614gvgykfvrc`
+  - Method: POST
+  - Data Format: JSON
+  - Tracks: name, company, message, language, timestamp
+
+### Fonts
+- **AlQabas:** Arabic font (`assets/fonts/Alqabas.ttf`)
+- **GESSTwoLight:** English font (`assets/fonts/GESSTwoLight.otf`)
+- **DINN:** UI font (`assets/fonts/din-next-lt-w23-medium.ttf`)
+
+## Development Environment
+
+### Browser Requirements
+- **Modern Browsers:** Chrome, Firefox, Safari, Edge (latest versions)
+- **Canvas Support:** Required
+- **Font Loading:** FontFace API support required
+- **ES6+ Support:** Required for modern JavaScript features
+
+### Local Development
+- **Server:** Python HTTP server (`python3 -m http.server [port]`)
+- **Port:** 3000 (configurable)
+- **No Build Process:** Direct HTML/CSS/JS files
+- **No Dependencies:** All libraries via CDN
+
+### File Structure
+```
+eid-cards/
+├── [company].html              # Company card pages
+├── README.md                   # Project documentation
+├── assets/
+│   ├── js/
+│   │   └── [company].js       # Company-specific logic
+│   ├── css/
+│   │   └── [company].css      # Company-specific styles
+│   ├── images/
+│   │   ├── [company].png       # Card templates
+│   │   └── 6degrees-logo.png   # Footer branding
+│   └── fonts/
+│       ├── Alqabas.ttf         # Arabic font
+│       ├── GESSTwoLight.otf    # English font
+│       └── din-next-lt-w23-medium.ttf  # UI font
+└── .cursor/
+    └── rules/
+        ├── project_description.mdc
+        └── memory_bank/
+```
+
+## Technical Specifications
+
+### Canvas Configuration
+- **Dimensions:** 1080px width × 1920px height (portrait)
+- **Display Size:** Max 50vh height, responsive width
+- **Image Format:** PNG (for download)
+- **Text Rendering:** Custom fonts with word wrapping
+
+### Text Positioning
+- **Message Position:** 
+  - X: imageWidth / 2 (centered)
+  - Y: imageHeight - 800
+  - Max Width: imageWidth - 200
+  - Font Size: 36pt
+- **Name Position:**
+  - X: imageWidth / 2 (centered)
+  - Y: imageHeight - 650
+  - Font Size: 40pt
+
+### Responsive Breakpoints
+- **Mobile:** < 768px (Bootstrap `md` breakpoint)
+- **Tablet:** 768px - 992px
+- **Desktop:** > 992px
+
+### Color Scheme
+- **Primary Background:** #00102B (Navy blue)
+- **Accent Color:** #6c8eff (Light blue)
+- **Text Color:** #ffffff (White)
+- **Secondary Text:** #9aa7c0 (Light gray)
+- **Input Background:** #1e1e1e (Dark gray)
+- **Border Color:** #333 (Dark gray)
+
+### Animation Details
+- **Background Circles:** 14s linear infinite animation
+- **Step Transitions:** 300ms ease transitions
+- **Button Hover:** 0.3s ease transitions
+
+## Dependencies
+
+### CDN Resources
+```html
+<!-- Bootstrap 5.1.3 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />
+
+<!-- No JavaScript dependencies - Vanilla JS only -->
+```
+
+### Local Assets
+- All fonts, images, and stylesheets are local
+- No npm/node_modules required
+- No build tools or bundlers
+
+## API Integration
+
+### SheetDB Configuration
+```javascript
+const SHEETDB_ENDPOINT = "https://sheetdb.io/api/v1/4614gvgykfvrc";
+
+// Request Format
+{
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    data: [{
+      name: string,
+      company: string,
+      message: string,
+      language: string,
+      time: ISO8601 timestamp
+    }]
+  })
+}
+```
+
+## Performance Targets
+- **Page Load:** < 2 seconds
+- **Card Rendering:** < 500ms after image load
+- **Download Generation:** < 1 second
+- **Step Transitions:** Instant (< 100ms)
+
+## Browser Compatibility
+- **Chrome/Edge:** Full support
+- **Firefox:** Full support
+- **Safari:** Full support (iOS 12+)
+- **Mobile Browsers:** Full support
+
+## Security Considerations
+- **No User Authentication:** Public access intended
+- **API Endpoint:** Public SheetDB endpoint (read/write)
+- **Input Sanitization:** Names cleaned for filename generation
+- **XSS Prevention:** Canvas rendering prevents script injection
+- **CORS:** No CORS issues (same-origin assets)
+
+## Deployment Considerations
+- **Static Hosting:** Can be deployed to any static host
+- **GitHub Pages:** Compatible (currently hosted there)
+- **CDN:** Can use CDN for faster asset delivery
+- **HTTPS Required:** For SheetDB API calls
+
+## Development Tools
+- **Editor:** Any code editor (VS Code recommended)
+- **Version Control:** Git
+- **Testing:** Manual browser testing
+- **Debugging:** Browser DevTools
+
+## Known Technical Limitations
+- **Font Loading:** Requires internet connection for CDN fonts
+- **Canvas Size:** Fixed dimensions (not responsive canvas)
+- **Image Format:** PNG only (no other formats)
+- **Browser Storage:** No local storage used (could add for draft saving)
+
+## Future Technical Considerations
+- **Service Worker:** For offline support
+- **WebP Format:** For optimized image downloads
+- **Progressive Web App:** Could add PWA capabilities
+- **Image Optimization:** Compress card template images
+- **Error Boundaries:** Add error handling for failed API calls
