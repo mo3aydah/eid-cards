@@ -2,7 +2,9 @@
 
 Eid greeting cards built with HTML/CSS.
 
-📎 **View the card**: [almanaa.html](https://mo3aydah.github.io/eid-cards/almanaa.html)
+📎 **View the cards**:
+- [Almanaa](https://mo3aydah.github.io/eid-cards/almanaa.html)
+- [Refad](https://mo3aydah.github.io/eid-cards/refad.html)
 
 ---
 
