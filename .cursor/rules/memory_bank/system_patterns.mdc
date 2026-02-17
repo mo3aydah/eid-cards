@@ -35,19 +35,19 @@ flowchart TD
 ### File Organization Pattern
 ```
 eid-cards/
-├── [company].html          # Main HTML file per company
+├── almanaa.html            # Main HTML (Almanaa card only)
 ├── assets/
 │   ├── js/
-│   │   └── [company].js   # Company-specific JavaScript
+│   │   └── almanaa.js      # Card logic
 │   ├── css/
-│   │   └── [company].css   # Company-specific CSS
+│   │   └── almanaa.css     # Card styles
 │   ├── images/
-│   │   └── [company].png  # Card template image
+│   │   └── Almanea - Ramadan post.png  # Card template
 │   └── fonts/              # Custom fonts
 ```
 
 ### HTML Structure Pattern
-Each company HTML file follows this structure:
+The Almanaa HTML file follows this structure:
 1. **Head Section:**
    - Bootstrap CSS
    - Company-specific CSS
@@ -117,11 +117,11 @@ let userName = null;             // User-entered name
 - **Font Rendering:** Better control over custom font rendering
 - **Image Overlay:** Seamless text overlay on card template
 
-### Why Separate Files Per Company?
-- **Maintainability:** Each company's customization isolated
-- **Performance:** Only load necessary assets per company
-- **Scalability:** Easy to add new companies without affecting others
-- **Branding:** Company-specific styling and images
+### Why Single HTML/JS/CSS Set (Almanaa)?
+- **Simplicity:** One card, one set of assets
+- **Performance:** Only Almanaa assets loaded
+- **Maintainability:** All card logic and styling in one place
+- **Branding:** Almanaa-specific styling and image
 
 ### Why Bootstrap 5?
 - **Responsive Grid:** Easy mobile/desktop layout

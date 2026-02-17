@@ -12,10 +12,10 @@ A bilingual (Arabic/English) web-based application that enables users to create 
 2. Support bilingual interface (Arabic and English) with language-specific content
 3. Generate downloadable, personalized greeting cards as PNG images
 4. Track card generation analytics via SheetDB integration
-5. Support multiple company-branded card templates
+5. Single company-branded card template (Almanaa)
 
 ## Key Deliverables
-- Individual HTML pages for each company card
+- Almanaa HTML page (`almanaa.html`)
 - Real-time canvas preview of personalized cards
 - Multi-step user flow with visual progress indicators
 - Language selection and content switching
@@ -29,7 +29,7 @@ A bilingual (Arabic/English) web-based application that enables users to create 
   - Multi-step card creation flow
   - Bilingual support (Arabic/English)
   - Canvas-based card rendering
-  - Company-specific card templates
+  - Almanaa card template
   - User data tracking
   
 - **Out of Scope:**

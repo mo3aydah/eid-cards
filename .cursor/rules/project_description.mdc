@@ -34,14 +34,11 @@ Interactive web application that allows users to create personalized Eid greetin
 - Custom fonts (AlQabas for Arabic, GESSTwoLight for English)
 
 ### File Structure
-- Each company has its own HTML file (e.g., `almanaa.html`)
-- Company-specific JavaScript files in `assets/js/`
-- Company-specific CSS files in `assets/css/`
+- Single company card: `almanaa.html`
+- JavaScript: `assets/js/almanaa.js`
+- CSS: `assets/css/almanaa.css`
 - Card images in `assets/images/`
 - Font files in `assets/fonts/`
 
 ### Current Companies
-- Almanaa (with Ramadan post card)
-- Accenture
-- ADNOC
-- And others...
+- Almanaa only (with Ramadan post card)

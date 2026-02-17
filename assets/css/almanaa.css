@@ -6,6 +6,14 @@
 html {
   background: transparent !important;
   background-color: transparent !important;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
 }
 
 body {
@@ -18,6 +26,9 @@ body {
   overflow-x: hidden;
   background: transparent !important;
   background-color: transparent !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 body::before {
@@ -52,6 +63,42 @@ body::after {
   position: relative;
   z-index: 1;
   background: transparent !important;
+  width: 100%;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+/* Prevent canvas from overflowing on small screens */
+.canvas-wrapper {
+  max-width: 100%;
+}
+
+/* Responsive: tighter padding and typography on small screens */
+@media (max-width: 576px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .step-title {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .container {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  footer {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  .step-title {
+    font-size: 1.1rem;
+  }
 }
 
 .form-control,
@@ -82,6 +129,42 @@ body::after {
   outline: none;
 }
 
+.form-control:focus-visible {
+  box-shadow: 0 0 0 2px rgba(108, 142, 255, 0.5);
+}
+
+/* Step 3: name input same width as CTA buttons */
+.step3-content .name-input-wrap,
+.step3-content .name-input-wrap input#name {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.input-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  min-height: 1.5rem;
+}
+
+.input-feedback {
+  flex: 1;
+  text-align: center;
+}
+
+.char-counter {
+  font-size: 0.8rem;
+  color: #9aa7c0;
+  flex-shrink: 0;
+}
+
+[dir="rtl"] .input-meta {
+  flex-direction: row-reverse;
+}
+
 .btn-light {
   background-color: #ffffff !important;
   color: #000000 !important;
@@ -107,21 +190,51 @@ body::after {
   font-size: 1rem;
 }
 
+/* Center all step text */
+.step-title,
+.step-subtitle,
+.step p,
+.step h2,
+.input-feedback,
+.step-label {
+  text-align: center;
+}
+
+.step .row {
+  justify-content: center;
+}
+
 footer {
   background-color: transparent;
-  padding: 1rem 0;
+  padding: 1rem 1.25rem;
   position: relative;
   z-index: 1;
 }
 
+footer p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
 footer a {
   color: #6c8eff;
+  display: inline-flex;
+  align-items: center;
+}
+
+footer a img {
+  vertical-align: middle;
+  display: block;
 }
 
 .powered-by {
   font-size: 0.9rem;
   color: #888;
-  margin-right: 0.5rem;
+  margin-right: 0.25rem;
+  line-height: 1;
 }
 
 .footer-logo {

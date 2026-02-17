@@ -80,7 +80,11 @@ let isLoading = true;
 
 imageObj.onload = function () {
   isLoading = false;
-  document.getElementById('canvasLoading').style.display = 'none';
+  const loadingEl = document.getElementById('canvasLoading');
+  if (loadingEl) {
+    loadingEl.style.display = 'none';
+    loadingEl.setAttribute('aria-busy', 'false');
+  }
   document.getElementById('myCanvas').classList.remove('loading');
   // Draw initial card (just the image)
   drawCard();
@@ -109,7 +113,10 @@ function showStep(stepNumber) {
   if (stepNumber === 1) {
     if (stepIndicator) stepIndicator.classList.remove('visible');
   } else {
-    if (stepIndicator) stepIndicator.classList.add('visible');
+    if (stepIndicator) {
+      stepIndicator.classList.add('visible');
+      stepIndicator.setAttribute('aria-valuenow', String(stepNumber - 1));
+    }
   }
   
   // Show the target step immediately
@@ -128,11 +135,12 @@ function showStep(stepNumber) {
     document.querySelectorAll('.step-item').forEach((item) => {
       const itemStep = parseInt(item.getAttribute('data-step'));
       item.classList.remove('active', 'completed');
-      
+      item.removeAttribute('aria-current');
       if (itemStep < stepNumber) {
         item.classList.add('completed');
       } else if (itemStep === stepNumber) {
         item.classList.add('active');
+        item.setAttribute('aria-current', 'step');
       }
     });
   }
@@ -152,25 +160,32 @@ function updateUIForLanguage(lang) {
   const step1Subtitle = document.getElementById('step1Subtitle');
   if (step1Title) step1Title.textContent = content.step1;
   if (step1Subtitle) step1Subtitle.textContent = content.step1Subtitle;
-  document.getElementById('step2Title').textContent = content.step2;
-  document.getElementById('step3Title').textContent = content.step3;
-  document.getElementById('step4Title').textContent = content.step4;
+  const step2Title = document.getElementById('step2Title');
+  const step3Title = document.getElementById('step3Title');
+  const step4Title = document.getElementById('step4Title');
+  if (step2Title) step2Title.textContent = content.step2;
+  if (step3Title) step3Title.textContent = content.step3;
+  if (step4Title) step4Title.textContent = content.step4;
   
   // Update placeholders
-  document.getElementById('name').placeholder = content.namePlaceholder;
+  const nameInput = document.getElementById('name');
+  if (nameInput) nameInput.placeholder = content.namePlaceholder;
   
   // Update navigation buttons
-  document.getElementById('backToStep1').textContent = content.back;
-  document.getElementById('nextToStep3').textContent = content.next;
-  document.getElementById('backToStep2').textContent = content.back;
-  document.getElementById('continueToPreview').textContent = content.next;
-  document.getElementById('backToStep3').textContent = content.back;
-  document.getElementById('downloadCard').textContent = content.download;
+  const navIds = ['backToStep1', 'nextToStep3', 'backToStep2', 'continueToPreview', 'backToStep3', 'downloadCard'];
+  const navTexts = [content.back, content.next, content.back, content.next, content.back, content.download];
+  navIds.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = navTexts[i];
+  });
   
   // Update step indicator labels (no step1 in indicator)
-  document.getElementById('stepLabel2').textContent = content.stepLabels.step2;
-  document.getElementById('stepLabel3').textContent = content.stepLabels.step3;
-  document.getElementById('stepLabel4').textContent = content.stepLabels.step4;
+  const label2 = document.getElementById('stepLabel2');
+  const label3 = document.getElementById('stepLabel3');
+  const label4 = document.getElementById('stepLabel4');
+  if (label2) label2.textContent = content.stepLabels.step2;
+  if (label3) label3.textContent = content.stepLabels.step3;
+  if (label4) label4.textContent = content.stepLabels.step4;
   
   // Update page direction
   if (lang === 'ar') {
@@ -326,6 +341,7 @@ function validateName(name) {
   
   if (!trimmed) {
     feedbackEl.textContent = '';
+    feedbackEl.classList.remove('success');
     inputEl.classList.remove('invalid');
     return false;
   }
@@ -388,10 +404,9 @@ function updateStep3() {
   newInput.addEventListener('input', function() {
     const value = this.value;
     userName = value.trim();
-    
+    updateNameCounter(value.length);
     // Validate
     validateName(value);
-    
     // Update preview
     if (userName && validateName(value)) {
       drawCard();
@@ -400,8 +415,15 @@ function updateStep3() {
     }
   });
   
+  // Set initial counter (use newInput after replace)
+  updateNameCounter((newInput.value || '').length);
   // Focus on input
   setTimeout(() => newInput.focus(), 100);
+}
+
+function updateNameCounter(len) {
+  const el = document.getElementById('nameCounter');
+  if (el) el.textContent = len + '/50';
 }
 
 // Step 3: Continue to Preview
@@ -505,10 +527,13 @@ function drawCard() {
 
 // Helper function to draw text with word wrap
 function drawText(ctx, text, x, y, maxWidth, fontSize, isArabic) {
+  if (!text || typeof text !== 'string') return;
+  const trimmed = text.trim();
+  if (!trimmed) return;
   // For Arabic, split by spaces and reverse for proper RTL handling
-  const words = text.split(' ');
+  const words = trimmed.split(/\s+/);
   const lines = [];
-  let currentLine = words[0];
+  let currentLine = words[0] || '';
   
   // Use GE_SS_Two_Light for Arabic messages, Gotham-Thin for English messages
   ctx.font = `${fontSize}pt ${isArabic ? 'GE_SS_Two_Light' : 'Gotham-Thin'}`;
@@ -538,6 +563,8 @@ function drawText(ctx, text, x, y, maxWidth, fontSize, isArabic) {
 function showSuccessMessage(message) {
   const successDiv = document.createElement('div');
   successDiv.className = 'success-message';
+  successDiv.setAttribute('role', 'status');
+  successDiv.setAttribute('aria-live', 'polite');
   successDiv.textContent = message;
   document.body.appendChild(successDiv);
   
