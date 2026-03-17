@@ -1,7 +1,7 @@
 // Bilingual UI content (showing both languages)
 const uiContent = {
-  step1: "تهنئة رمضانية لمن يعزّ عليك<br>A Ramadan Greeting for Someone Special",
-  step1Subtitle: "أنشئ بطاقة رمضانية مميزة وشاركها مع من تحب<br>Create your personalized Ramadan card in just a few simple steps",
+  step1: "تهنئة عيد لمن يعزّ عليك<br>An Eid Greeting for Someone Special",
+  step1Subtitle: "أنشئ بطاقة عيد مميزة وشاركها مع من تحب<br>Create your personalized Eid card in just a few simple steps",
   step3: "أضف اسمك / Add Your Name",
   step4: "حمّل بطاقتك / Download Your Card",
   back: "رجوع / Back",
@@ -41,23 +41,29 @@ function detectLanguage() {
 // Initialize language detection
 detectLanguage();
 
-// Load fonts
+// Load fonts (path relative to document so they load from any page)
+function getFontUrl(path) {
+  const base = window.location.pathname.replace(/\/[^/]*$/, '') || '';
+  return (base ? base + '/' : '/') + path;
+}
 let fontsLoaded = false;
-const nameFont = new FontFace('IBMPlexSansArabic-Medium', 'url(assets/fonts/IBMPlexSansArabic-Medium.ttf)');
+const nameFont = new FontFace('IBMPlexSansArabic-Medium', 'url(' + getFontUrl('assets/fonts/IBMPlexSansArabic-Medium.ttf') + ')');
 
 nameFont.load().then(font => {
   document.fonts.add(font);
   fontsLoaded = true;
+  drawCard();
 }).catch(err => {
   console.warn('Font loading error:', err);
-  fontsLoaded = true; // Continue even if fonts fail to load
+  fontsLoaded = true;
+  drawCard();
 });
 
 // Canvas setup
 var canvas = document.getElementById("myCanvas");
 var context = canvas.getContext("2d");
-var imageWidth = 4501;
-var imageHeight = 4501;
+var imageWidth = 3001;
+var imageHeight = 3001;
 var imageObj = new Image(imageWidth, imageHeight);
 
 // Loading state
@@ -546,13 +552,22 @@ function drawCard() {
     return;
   }
   
-  // Wait a bit for fonts to load if not already loaded
+  // Wait for fonts to load
   if (!fontsLoaded) {
     setTimeout(drawCard, 100);
     return;
   }
-  
-  // Hide loading indicator
+  document.fonts.ready.then(function () {
+    if (!imageObj.complete || isLoading) return;
+    drawCardInner();
+  }).catch(function () { drawCardInner(); });
+  return;
+}
+
+function drawCardInner() {
+  if (!imageObj.complete || isLoading) return;
+  if (!fontsLoaded) return;
+
   const loadingEl = document.getElementById('canvasLoading');
   const canvasEl = document.getElementById('myCanvas');
   if (loadingEl) {
@@ -562,31 +577,24 @@ function drawCard() {
   if (canvasEl) {
     canvasEl.classList.remove('loading');
   }
-  
+
   context.clearRect(0, 0, imageWidth, imageHeight);
   context.drawImage(imageObj, 0, 0);
-  
-  // Draw names at the bottom - both aligned right, Arabic on top, English below
-  // Scale font size proportionally (old 40pt, scale by height ratio ~2.34x for square card)
-  const nameFontSize = Math.round(40 * (imageHeight / 1920));
-  // Position names lower but slightly up from bottom (offset 350px from bottom - moved up more)
-  const baseY = imageHeight - (350 * (imageHeight / 1920));
-  // Spacing between Arabic and English names (increased spacing)
+
+  const nameFontSize = Math.round(46 * (imageHeight / 1920));
+  const baseY = imageHeight - (200 * (imageHeight / 1920));
   const nameSpacing = nameFontSize * 1.5;
-  
-  context.fillStyle = "#454C56";
-  context.textAlign = "right";
+
+  context.fillStyle = "#214E76";
+  context.textAlign = "left";
   context.font = `${nameFontSize}pt IBMPlexSansArabic-Medium`;
-  
-  // Position: right side, very close to edge (8% from right edge, 92% from left)
-  const nameX = imageWidth * 0.92;
-  
-  // Draw Arabic name first (on top)
+
+  const nameX = imageWidth * 0.08;
+
   if (userNameArabic) {
     context.fillText(userNameArabic, nameX, baseY);
   }
-  
-  // Draw English name below Arabic name
+
   if (userNameEnglish) {
     const englishY = baseY + nameSpacing;
     context.fillText(userNameEnglish, nameX, englishY);

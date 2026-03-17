@@ -1,7 +1,7 @@
 // Bilingual UI content (showing both languages)
 const uiContent = {
-  step1: "تهنئة رمضانية لمن يعزّ عليك<br>A Ramadan Greeting for Someone Special",
-  step1Subtitle: "أنشئ بطاقة رمضانية مميزة وشاركها مع من تحب<br>Create your personalized Ramadan card in just a few simple steps",
+  step1: "تهنئة عيد لمن يعزّ عليك<br>An Eid Greeting for Someone Special",
+  step1Subtitle: "أنشئ بطاقة عيد مميزة وشاركها مع من تحب<br>Create your personalized Eid card in just a few simple steps",
   step3: "أضف اسمك / Add Your Name",
   step4: "حمّل بطاقتك / Download Your Card",
   back: "رجوع / Back",
@@ -41,24 +41,30 @@ function detectLanguage() {
 // Initialize language detection
 detectLanguage();
 
-// Load fonts
+// Load fonts (use path relative to document so they load from any page)
+function getFontUrl(path) {
+  const base = window.location.pathname.replace(/\/[^/]*$/, '') || '';
+  return (base ? base + '/' : '/') + path;
+}
 let fontsLoaded = false;
-const arabicNameFont = new FontFace('HTMoshreqPro-Regular', 'url(assets/fonts/HTMoshreqPro-Regular.otf)');
-const englishNameFont = new FontFace('ABCArizonaSerif-Regular', 'url(assets/fonts/ABCArizonaSerif-Regular.otf)');
+const arabicNameFont = new FontFace('HTMoshreqPro-Regular', 'url(' + getFontUrl('assets/fonts/HTMoshreqPro-Regular.otf') + ')');
+const englishNameFont = new FontFace('ABCArizonaSerif-Regular', 'url(' + getFontUrl('assets/fonts/ABCArizonaSerif-Regular.otf') + ')');
 
 Promise.all([arabicNameFont.load(), englishNameFont.load()]).then(fonts => {
   fonts.forEach(font => document.fonts.add(font));
   fontsLoaded = true;
+  drawCard(); // Redraw so names use loaded fonts
 }).catch(err => {
   console.warn('Font loading error:', err);
-  fontsLoaded = true; // Continue even if fonts fail to load
+  fontsLoaded = true;
+  drawCard();
 });
 
 // Canvas setup
 var canvas = document.getElementById("myCanvas");
 var context = canvas.getContext("2d");
-var imageWidth = 4505;
-var imageHeight = 6005;
+var imageWidth = 3001;
+var imageHeight = 4001;
 var imageObj = new Image(imageWidth, imageHeight);
 
 // Loading state
@@ -544,12 +550,22 @@ function drawCard() {
     return;
   }
   
-  // Wait a bit for fonts to load if not already loaded
+  // Wait for fonts to be loaded and ready before drawing text
   if (!fontsLoaded) {
     setTimeout(drawCard, 100);
     return;
   }
-  
+  document.fonts.ready.then(function drawCardWithFonts() {
+    if (!imageObj.complete || isLoading) return;
+    drawCardInner();
+  }).catch(function() { drawCardInner(); });
+  return;
+}
+
+function drawCardInner() {
+  if (!imageObj.complete || isLoading) return;
+  if (!fontsLoaded) return;
+
   // Hide loading indicator
   const loadingEl = document.getElementById('canvasLoading');
   const canvasEl = document.getElementById('myCanvas');
@@ -565,28 +581,30 @@ function drawCard() {
   context.drawImage(imageObj, 0, 0);
   
   // Draw names at the bottom - English on left, Arabic on right
-  // Scale font size proportionally (old 40pt, scale by height ratio ~3.13x)
-  const nameFontSize = Math.round(40 * (imageHeight / 1920));
-  // Position names lower but slightly up from bottom (offset 150px from bottom)
-  const nameY = imageHeight - (150 * (imageHeight / 1920));
-  
-  context.fillStyle = "#F4E4CF";
-  
+  const nameFontSize = Math.round(46 * (imageHeight / 1920));
+  const nameY = imageHeight - (120 * (imageHeight / 1920));
+  const strokeWidth = Math.max(1, Math.round(2 * (imageHeight / 1920)));
+
+  context.fillStyle = "#2D1D1E";
+  context.strokeStyle = "#2D1D1E";
+  context.lineWidth = strokeWidth;
+  context.lineJoin = "round";
+
   // Draw English name on the left
   if (userNameEnglish) {
     context.textAlign = "left";
     context.font = `${nameFontSize}pt ABCArizonaSerif-Regular`;
-    // Position: left side, very close to edge (8% from left edge)
     const englishX = imageWidth * 0.08;
+    context.strokeText(userNameEnglish, englishX, nameY);
     context.fillText(userNameEnglish, englishX, nameY);
   }
-  
+
   // Draw Arabic name on the right
   if (userNameArabic) {
     context.textAlign = "right";
     context.font = `${nameFontSize}pt HTMoshreqPro-Regular`;
-    // Position: right side, very close to edge (8% from right edge, 92% from left)
     const arabicX = imageWidth * 0.92;
+    context.strokeText(userNameArabic, arabicX, nameY);
     context.fillText(userNameArabic, arabicX, nameY);
   }
 }
@@ -672,9 +690,8 @@ function setupDownloadButton() {
       return;
     }
 
-    // Get company name from file
-    const page = window.location.pathname.split("/").pop();
-    const company = page.replace(".html", "");
+    // Company name for this card
+    const company = "Refad";
     const timestamp = new Date().toISOString();
     
     // Detect browser language for analytics

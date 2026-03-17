@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Create personalized Ramadan greeting cards with Alqahtani. Enter your name in English and Arabic, preview, and download your custom Eid card." />
-    <meta name="keywords" content="Eid card, Ramadan card, greeting card, Alqahtani, personalized card" />
-    <title>Eid Card - Alqahtani | Create Your Personalized Ramadan Greeting Card</title>
+    <meta name="description" content="Create personalized Eid greeting cards with Alqahtani. Enter your name in English and Arabic, preview, and download your custom Eid card." />
+    <meta name="keywords" content="Eid card, greeting card, Alqahtani, personalized card" />
+    <title>Eid Card - Alqahtani | Create Your Personalized Eid Greeting Card</title>
     
     <!-- Bootstrap CSS -->
     <link
@@ -16,6 +16,7 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/alqahtani.css" />
+    <link rel="preload" href="assets/fonts/IBMPlexSansArabic-Medium.ttf" as="font" type="font/ttf" crossorigin />
     
     <style>
       html, body {
@@ -868,7 +869,7 @@
       <div class="row justify-content-center mb-4">
         <div class="col-12 col-md-8 col-lg-6 text-center imageCover">
           <div class="canvas-wrapper">
-            <canvas id="myCanvas" width="4501" height="4501" aria-label="Card Preview"></canvas>
+            <canvas id="myCanvas" width="3001" height="3001" aria-label="Card Preview"></canvas>
             <div id="canvasLoading" class="canvas-loading" aria-live="polite" aria-busy="true">
               <div class="spinner" aria-hidden="true"></div>
               <span class="canvas-loading-text" id="canvasLoadingText">جاري تحميل المعاينة… / Loading preview…</span>
@@ -881,8 +882,8 @@
       <div id="step1" class="step active">
         <div class="row justify-content-center">
           <div class="col-12 col-md-8 col-lg-6 text-center">
-            <h2 class="step-title" id="step1Title">تهنئة رمضانية لمن يعزّ عليك<br>A Ramadan Greeting for Someone Special</h2>
-            <p class="step-subtitle" id="step1Subtitle" style="color: #F4E4CF; font-size: 1rem; margin-bottom: 1.5rem; line-height: 1.6; opacity: 0.9; font-family: 'IBMPlexSansArabic-Medium', serif;">أنشئ بطاقة رمضانية مميزة وشاركها مع من تحب<br>Create your personalized Ramadan card in just a few simple steps</p>
+            <h2 class="step-title" id="step1Title">تهنئة عيد لمن يعزّ عليك<br>An Eid Greeting for Someone Special</h2>
+            <p class="step-subtitle" id="step1Subtitle" style="color: #F4E4CF; font-size: 1rem; margin-bottom: 1.5rem; line-height: 1.6; opacity: 0.9; font-family: 'IBMPlexSansArabic-Medium', serif;">أنشئ بطاقة عيد مميزة وشاركها مع من تحب<br>Create your personalized Eid card in just a few simple steps</p>
             <div class="row justify-content-center">
               <div class="col-12 col-md-8">
                 <button type="button" id="startButton" class="nav-btn nav-btn-next">ابدأ / Start</button>
