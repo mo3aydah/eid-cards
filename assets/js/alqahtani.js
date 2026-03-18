@@ -583,7 +583,10 @@ function drawCardInner() {
 
   const nameFontSize = Math.round(46 * (imageHeight / 1920));
   const baseY = imageHeight - (200 * (imageHeight / 1920));
-  const nameSpacing = nameFontSize * 1.5;
+  // Space between Arabic and English names (baseline-to-baseline)
+  const scale = imageHeight / 1920;
+  const gapBetweenLines = Math.round(35 * scale);
+  const nameSpacing = nameFontSize * 1.1 + gapBetweenLines;
 
   context.fillStyle = "#214E76";
   context.textAlign = "left";

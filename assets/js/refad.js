@@ -581,7 +581,8 @@ function drawCardInner() {
   context.drawImage(imageObj, 0, 0);
   
   // Draw names at the bottom - English on left, Arabic on right
-  const nameFontSize = Math.round(46 * (imageHeight / 1920));
+  // Same visual size as Alqahtani (3001 height): scale base for Refad's 4001 height
+  const nameFontSize = Math.round(34 * (imageHeight / 1920));
   const nameY = imageHeight - (120 * (imageHeight / 1920));
   const strokeWidth = Math.max(1, Math.round(2 * (imageHeight / 1920)));
 
