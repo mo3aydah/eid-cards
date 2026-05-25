@@ -532,7 +532,7 @@ function drawCard() {
     context.textAlign = "center";
     context.fillStyle = "#FFFFFF";
     context.font = nameFont;
-    context.fillText(userName, imageWidth / 2, imageHeight - 650);
+    context.fillText(userName, imageWidth / 2, imageHeight - 550);
   }
 }
 
