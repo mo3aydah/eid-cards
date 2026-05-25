@@ -1,20 +1,22 @@
 // Messages in both languages
 const messages = {
   ar: {
-    1: "نتمنى لكم شهر رمضان مليئاً بالرحمة والسلام والبركات.",
-    2: "نسأل اللّٰه أن يثيبكم على جهودكم، وأن يرزق قلوبكم الطمأنينة في هذا الشهر الكريم."
+    1: "أدام الله عليكم فرحة العيد، وجعل بيوتكم عامرةً بالمودة والمسرات.",
+    2: "أتمنى لكم عيداً مباركاً، مليئاً بالأمل والنور، تنعمون فيه بالبركة وتدوم فيه الأفراح.",
+    3: "كل عامٍ وانتم بخير، وأتمّ الله أيامكم بالنور والسعادة والطمأنينة."
   },
   en: {
-    1: "Wishing you a Ramadan filled with mercy, peace, and blessings.",
-    2: "May your efforts be rewarded, and may your heart find serenity this Ramadan."
+    1: "May Allah bless your Eid with love, goodness, and lasting joyful moments.",
+    2: "Wishing you an Eid filled with hope, prosperity, and blessings.",
+    3: "Happy Eid, wishing you continuous health, joy, and peace."
   }
 };
 
 // Step titles and UI content
 const uiContent = {
   ar: {
-    step1: "تهنئة رمضانية لمن يعزّ عليك",
-    step1Subtitle: "أنشئ بطاقة رمضانية مميزة وشاركها مع من تحب",
+    step1: "تهنئة العيد لمن يعزّ عليك",
+    step1Subtitle: "أنشئ بطاقة عيد مميزة وشاركها مع من تحب",
     step2: "اختر عبارتك",
     step3: "أضف اسمك",
     step4: "حمّل بطاقتك",
@@ -30,8 +32,8 @@ const uiContent = {
     }
   },
   en: {
-    step1: "A Ramadan Greeting for Someone Special",
-    step1Subtitle: "Create your personalized Ramadan card in just a few simple steps",
+    step1: "An Eid Greeting for Someone Special",
+    step1Subtitle: "Create your personalized Eid card in just a few simple steps",
     step2: "Choose Your Message",
     step3: "Add Your Name",
     step4: "Download Your Card",
@@ -71,8 +73,8 @@ Promise.all([arabicMessageFont.load(), arabicNameFont.load(), gothamMediumFont.l
 // Canvas setup
 var canvas = document.getElementById("myCanvas");
 var context = canvas.getContext("2d");
-var imageWidth = 1080;
-var imageHeight = 1920;
+var imageWidth = 2251;
+var imageHeight = 4001;
 var imageObj = new Image(imageWidth, imageHeight);
 
 // Loading state
@@ -96,7 +98,7 @@ imageObj.onerror = function() {
   console.error('Failed to load card image');
 };
 
-imageObj.src = "assets/images/Almanea - Ramadan post.png";
+imageObj.src = "assets/images/al-mana-eid-adha.png";
 
 // Show loading initially
 document.getElementById('myCanvas').classList.add('loading');
@@ -238,37 +240,46 @@ function updateStep2() {
   const step2Title = document.getElementById('step2Title');
   const message1Btn = document.getElementById('message1');
   const message2Btn = document.getElementById('message2');
+  const message3Btn = document.getElementById('message3');
   const nextBtn = document.getElementById('nextToStep3');
-  
-  if (!step2Title || !message1Btn || !message2Btn || !nextBtn) {
+
+  if (!step2Title || !message1Btn || !message2Btn || !message3Btn || !nextBtn) {
     console.warn('Step 2 elements not found');
     return;
   }
-  
+
   step2Title.textContent = uiContent[lang].step2;
   message1Btn.textContent = messages[lang][1];
   message2Btn.textContent = messages[lang][2];
-  
+  message3Btn.textContent = messages[lang][3];
+
   // Update button direction
   if (lang === 'ar') {
     message1Btn.classList.remove('english');
     message2Btn.classList.remove('english');
+    message3Btn.classList.remove('english');
     message1Btn.style.textAlign = 'right';
     message1Btn.style.direction = 'rtl';
     message2Btn.style.textAlign = 'right';
     message2Btn.style.direction = 'rtl';
+    message3Btn.style.textAlign = 'right';
+    message3Btn.style.direction = 'rtl';
   } else {
     message1Btn.classList.add('english');
     message2Btn.classList.add('english');
+    message3Btn.classList.add('english');
     message1Btn.style.textAlign = 'left';
     message1Btn.style.direction = 'ltr';
     message2Btn.style.textAlign = 'left';
     message2Btn.style.direction = 'ltr';
+    message3Btn.style.textAlign = 'left';
+    message3Btn.style.direction = 'ltr';
   }
   
   // Reset selection and disable Next button
   message1Btn.classList.remove('selected');
   message2Btn.classList.remove('selected');
+  message3Btn.classList.remove('selected');
   nextBtn.disabled = true;
   
   // Restore selection if going back
@@ -498,30 +509,30 @@ function drawCard() {
     const message = messages[selectedLanguage][selectedMessage];
     const isArabic = selectedLanguage === 'ar';
     
-    // Set font based on language
-    const messageFont = isArabic ? "36pt GE_SS_Two_Light" : "36pt Gotham-Thin";
-    
+    // Set font based on language (scaled for 2251x4001 canvas)
+    const messageFont = isArabic ? "75pt GE_SS_Two_Light" : "75pt Gotham-Thin";
+
     context.textAlign = "center";
     context.fillStyle = "#FFFFFF";
-    
+
     // Draw message
     context.font = messageFont;
-    const messageY = imageHeight - 950;
-    const maxWidth = imageWidth - 200;
-    
+    const messageY = imageHeight - 900;
+    const maxWidth = imageWidth - 420;
+
     // Draw message with word wrap
-    drawText(context, message, imageWidth / 2, messageY, maxWidth, 36, isArabic);
+    drawText(context, message, imageWidth / 2, messageY, maxWidth, 75, isArabic);
   }
-  
+
   // Draw name if entered
   if (userName && selectedLanguage) {
     const isArabic = selectedLanguage === 'ar';
-    const nameFont = isArabic ? "40pt GE_SS_Two_Medium" : "40pt Gotham-Medium";
-    
+    const nameFont = isArabic ? "83pt GE_SS_Two_Medium" : "83pt Gotham-Medium";
+
     context.textAlign = "center";
     context.fillStyle = "#FFFFFF";
     context.font = nameFont;
-    context.fillText(userName, imageWidth / 2, imageHeight - 750);
+    context.fillText(userName, imageWidth / 2, imageHeight - 650);
   }
 }
 
